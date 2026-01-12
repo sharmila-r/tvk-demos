@@ -43,7 +43,6 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto text-center">
             <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
-            <p className="text-tvk-red font-semibold text-lg mt-1">TVK Apps</p>
             <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-3">
               Empowering communities through technology. Our suite of applications
               built on <span className="text-tvk-red font-semibold">20+ innovative ideas</span> designed
@@ -148,7 +147,7 @@ export default function Home() {
       <footer className="bg-black text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-gray-500">
-            © {new Date().getFullYear()} TVK. All rights reserved.
+            © {new Date().getFullYear()} Forward Alpha. All rights reserved.
           </p>
         </div>
       </footer>

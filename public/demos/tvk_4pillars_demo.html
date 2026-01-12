@@ -3,221 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TVK Digital Platform - 4 Pillars Demo</title>
+    <title>TVK Digital Platform - 4 Pillars</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+
+        .section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            padding: 60px 20px;
         }
-        
-        .demo-container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-        }
-        
-        /* Intro Screen */
-        .intro-screen {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            cursor: pointer;
-        }
-        
-        .intro-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-        
-        .click-start {
-            text-align: center;
-            color: rgba(255,255,255,0.6);
-            animation: pulse 2s infinite;
-        }
-        
-        .click-start .icon { font-size: 4rem; display: block; margin-bottom: 15px; }
-        .click-start .text { font-size: 1.2rem; }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-        
-        /* Slide Container */
-        .slide {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-        }
-        
-        .slide.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        /* Slide 1: 4 Pillars Intro */
+
+        /* Section 1: 4 Pillars Intro */
         .pillars-intro {
             text-align: center;
-            padding: 40px;
+            width: 100%;
+            max-width: 1200px;
         }
-        
+
         .main-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: #FFC000;
             margin-bottom: 10px;
             text-shadow: 0 0 40px rgba(255, 192, 0, 0.5);
         }
-        
+
         .sub-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: white;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             opacity: 0.8;
         }
-        
+
         .pillars-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 1200px;
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        
+
+        @media (max-width: 900px) {
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main-title { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 500px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .pillar-card {
             background: rgba(255,255,255,0.05);
             border: 2px solid rgba(255,255,255,0.1);
             border-radius: 20px;
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
-        
-        .pillar-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+
+        .pillar-card:hover {
+            transform: translateY(-5px);
         }
-        
+
         .pillar-card.field { border-color: #C41E3A; }
         .pillar-card.safety { border-color: #4CAF50; }
         .pillar-card.training { border-color: #2196F3; }
         .pillar-card.voice { border-color: #FFC000; }
-        
+
         .pillar-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
         }
-        
+
         .pillar-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: white;
             margin-bottom: 8px;
         }
-        
+
         .pillar-problem {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: rgba(255,255,255,0.6);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
-        
+
         .pillar-app {
             display: inline-block;
-            padding: 8px 16px;
+            padding: 6px 14px;
             background: linear-gradient(135deg, #C41E3A, #8B0000);
             border-radius: 20px;
             color: white;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
-        
+
         .pillar-card.safety .pillar-app { background: linear-gradient(135deg, #4CAF50, #2e7d32); }
         .pillar-card.training .pillar-app { background: linear-gradient(135deg, #2196F3, #1565c0); }
         .pillar-card.voice .pillar-app { background: linear-gradient(135deg, #FFC000, #cc9900); color: #1a1a2e; }
-        
-        /* App Demo Slides */
+
+        /* App Demo Sections */
         .app-demo {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 60px;
-            padding: 40px;
+            gap: 50px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
         }
-        
+
         .app-info {
-            max-width: 400px;
+            max-width: 380px;
+            flex: 1;
+            min-width: 280px;
         }
-        
+
         .app-badge {
             display: inline-block;
             padding: 6px 16px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
+
         .app-badge.field { background: #C41E3A; color: white; }
         .app-badge.safety { background: #4CAF50; color: white; }
         .app-badge.training { background: #2196F3; color: white; }
         .app-badge.voice { background: #FFC000; color: #1a1a2e; }
-        
+
         .app-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
+
         .app-problem {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
-        
+
         .app-features {
             list-style: none;
         }
-        
+
         .app-features li {
             color: rgba(255,255,255,0.8);
-            font-size: 1rem;
-            margin-bottom: 12px;
-            padding-left: 30px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding-left: 25px;
             position: relative;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.4s ease;
         }
-        
-        .app-features li.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
+
         .app-features li::before {
             content: '✓';
             position: absolute;
@@ -225,104 +181,105 @@
             color: #FFC000;
             font-weight: bold;
         }
-        
+
         /* Phone Mockup */
         .phone-mockup {
-            width: 280px;
-            height: 580px;
+            width: 260px;
+            height: 540px;
             background: #000;
-            border-radius: 40px;
-            padding: 12px;
+            border-radius: 36px;
+            padding: 10px;
             box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+            flex-shrink: 0;
         }
-        
+
         .phone-screen {
             width: 100%;
             height: 100%;
             background: #f5f5f5;
-            border-radius: 32px;
+            border-radius: 28px;
             overflow: hidden;
             position: relative;
         }
-        
+
         .phone-notch {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 25px;
+            width: 100px;
+            height: 22px;
             background: #000;
-            border-radius: 0 0 15px 15px;
+            border-radius: 0 0 12px 12px;
             z-index: 10;
         }
-        
+
         .phone-status {
-            height: 35px;
+            height: 32px;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding: 0 20px 5px;
-            font-size: 12px;
+            padding: 0 18px 4px;
+            font-size: 11px;
             font-weight: 600;
         }
-        
+
         .phone-header {
-            padding: 12px 15px;
+            padding: 10px 12px;
             color: white;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
-        
+
         .phone-header.field { background: linear-gradient(135deg, #C41E3A, #8B0000); }
         .phone-header.safety { background: linear-gradient(135deg, #4CAF50, #2e7d32); }
         .phone-header.training { background: linear-gradient(135deg, #2196F3, #1565c0); }
         .phone-header.voice { background: linear-gradient(135deg, #FFC000, #cc9900); color: #1a1a2e; }
-        
+
         .phone-header .logo {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             background: rgba(255,255,255,0.2);
-            border-radius: 6px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
         }
-        
-        .phone-header h2 { font-size: 16px; font-weight: 700; }
-        
+
+        .phone-header h2 { font-size: 14px; font-weight: 700; }
+
         .phone-content {
-            padding: 15px;
-            height: calc(100% - 100px);
+            padding: 12px;
+            height: calc(100% - 90px);
             overflow: hidden;
         }
-        
+
         /* Booth Connect Screen */
         .booth-map {
-            height: 180px;
+            height: 160px;
             background: linear-gradient(180deg, #e8f4e8, #d4e8d4);
-            border-radius: 12px;
+            border-radius: 10px;
             position: relative;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             overflow: hidden;
         }
-        
+
         .booth-map::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-size: 18px 18px;
         }
-        
+
         .booth-marker {
             position: absolute;
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             background: #C41E3A;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
@@ -330,825 +287,600 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: all 0.4s ease;
         }
-        
-        .booth-marker.visible { opacity: 1; }
-        
+
         .booth-marker span {
             transform: rotate(45deg);
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
         .booth-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
-        
+
         .booth-stat {
             background: white;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
-        
-        .booth-stat .num { font-size: 18px; font-weight: 700; color: #C41E3A; }
-        .booth-stat .label { font-size: 9px; color: #666; }
-        
+
+        .booth-stat .num { font-size: 14px; font-weight: 700; color: #C41E3A; }
+        .booth-stat .label { font-size: 8px; color: #666; }
+
         .booth-item {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             background: white;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
-        
-        .booth-item.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
+
         .booth-item .avatar {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background: linear-gradient(135deg, #C41E3A, #8B0000);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
-            margin-right: 10px;
+            margin-right: 8px;
         }
-        
+
         .booth-item .info { flex: 1; }
-        .booth-item .name { font-size: 11px; font-weight: 600; color: #333; }
-        .booth-item .loc { font-size: 9px; color: #666; }
+        .booth-item .name { font-size: 10px; font-weight: 600; color: #333; }
+        .booth-item .loc { font-size: 8px; color: #666; }
         .booth-item .status {
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 7px;
             font-weight: 600;
         }
         .booth-item .status.active { background: #e8f5e9; color: #2e7d32; }
-        
+
         /* Kavalan Screen */
         .kavalan-map {
-            height: 180px;
+            height: 160px;
             background: linear-gradient(180deg, #e8f4e8, #d4e8d4);
-            border-radius: 12px;
+            border-radius: 10px;
             position: relative;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             overflow: hidden;
         }
-        
+
         .crowd-zone {
             position: absolute;
             border-radius: 50%;
             animation: pulse-zone 2s infinite;
         }
-        
+
         .crowd-zone.danger { background: radial-gradient(circle, rgba(255,0,0,0.6), rgba(255,0,0,0.1)); }
         .crowd-zone.warning { background: radial-gradient(circle, rgba(255,165,0,0.5), rgba(255,165,0,0.1)); }
         .crowd-zone.safe { background: radial-gradient(circle, rgba(0,255,0,0.4), rgba(0,255,0,0.1)); }
-        
+
         @keyframes pulse-zone {
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 0.6; }
         }
-        
+
         .kavalan-alert {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
+            top: 6px;
+            left: 6px;
+            right: 6px;
             background: linear-gradient(135deg, #ff4444, #cc0000);
             color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 10px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 9px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.4s ease;
+            gap: 6px;
         }
-        
-        .kavalan-alert.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
+
         .kavalan-alert .dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: white;
             border-radius: 50%;
             animation: blink 1s infinite;
         }
-        
+
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-        
+
         .kavalan-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
-        
+
         .kavalan-stat {
             background: white;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 8px;
             text-align: center;
         }
-        
-        .kavalan-stat .num { font-size: 16px; font-weight: 700; }
+
+        .kavalan-stat .num { font-size: 14px; font-weight: 700; }
         .kavalan-stat .num.warning { color: #ff9800; }
-        .kavalan-stat .label { font-size: 9px; color: #666; }
-        
+        .kavalan-stat .label { font-size: 8px; color: #666; }
+
         .sos-btn {
             background: linear-gradient(135deg, #C41E3A, #8B0000);
             color: white;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.4s ease;
+            gap: 8px;
         }
-        
-        .sos-btn.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
+
         /* Training Hub Screen */
         .training-progress {
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .training-progress h4 {
-            font-size: 11px;
-            color: #333;
+            padding: 12px;
+            border-radius: 10px;
             margin-bottom: 10px;
         }
-        
-        .progress-bar {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
+
+        .training-progress h4 {
+            font-size: 10px;
+            color: #333;
             margin-bottom: 8px;
         }
-        
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #2196F3, #1565c0);
-            border-radius: 4px;
-            width: 0%;
-            transition: width 1s ease;
+            border-radius: 3px;
+            width: 68%;
         }
-        
-        .progress-fill.animated { width: 68%; }
-        
+
         .progress-text {
             display: flex;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 9px;
             color: #666;
         }
-        
+
         .course-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
-        
+
         .course-item {
             display: flex;
             align-items: center;
-            padding: 12px;
+            padding: 10px;
             background: white;
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+            border-radius: 8px;
         }
-        
-        .course-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
+
         .course-item .icon {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             background: linear-gradient(135deg, #2196F3, #1565c0);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            margin-right: 12px;
+            font-size: 16px;
+            margin-right: 10px;
         }
-        
+
         .course-item .info { flex: 1; }
-        .course-item .title { font-size: 11px; font-weight: 600; color: #333; }
-        .course-item .meta { font-size: 9px; color: #666; }
+        .course-item .title { font-size: 10px; font-weight: 600; color: #333; }
+        .course-item .meta { font-size: 8px; color: #666; }
         .course-item .badge {
-            padding: 4px 10px;
-            border-radius: 10px;
-            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 8px;
             font-weight: 600;
         }
         .course-item .badge.complete { background: #e8f5e9; color: #2e7d32; }
         .course-item .badge.progress { background: #e3f2fd; color: #1565c0; }
         .course-item .badge.new { background: #fff3e0; color: #ef6c00; }
-        
+
         /* Janakural Screen */
         .grievance-form {
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
-        
+
         .grievance-form h4 {
-            font-size: 12px;
+            font-size: 11px;
             color: #333;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
-        
+
         .form-input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 11px;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            margin-bottom: 8px;
         }
-        
+
         .form-select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 11px;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            margin-bottom: 8px;
             background: white;
         }
-        
+
         .submit-btn {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: linear-gradient(135deg, #FFC000, #cc9900);
             border: none;
-            border-radius: 8px;
-            font-size: 12px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             color: #1a1a2e;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: all 0.4s ease;
         }
-        
-        .submit-btn.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
+
         .recent-issues h4 {
-            font-size: 11px;
+            font-size: 10px;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-        
+
         .issue-item {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             background: white;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 6px;
         }
-        
-        .issue-item.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
+
         .issue-item .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 8px;
         }
-        
+
         .issue-item .status-dot.resolved { background: #4CAF50; }
         .issue-item .status-dot.progress { background: #FFC000; }
-        
+
         .issue-item .info { flex: 1; }
-        .issue-item .title { font-size: 10px; font-weight: 600; color: #333; }
-        .issue-item .meta { font-size: 9px; color: #666; }
-        
+        .issue-item .title { font-size: 9px; font-weight: 600; color: #333; }
+        .issue-item .meta { font-size: 8px; color: #666; }
+
         /* Outro */
         .outro {
             text-align: center;
+            padding: 60px 20px;
         }
-        
+
         .outro-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             color: #FFC000;
             margin-bottom: 20px;
             text-shadow: 0 0 40px rgba(255, 192, 0, 0.5);
         }
-        
+
         .outro-credit {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: white;
             margin-bottom: 15px;
         }
-        
+
         .outro-credit strong {
             color: #FFC000;
         }
-        
+
         .outro-tamil {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: #C41E3A;
             text-shadow: 0 0 30px rgba(196, 30, 58, 0.5);
         }
-        
-        /* Progress Bar */
-        .demo-progress {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 50;
-        }
-        
-        .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .progress-dot.active {
-            background: #FFC000;
-            box-shadow: 0 0 10px #FFC000;
-        }
-        
-        /* Replay */
-        .replay-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 12px 24px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 25px;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 50;
-        }
-        
-        .replay-btn.visible {
-            opacity: 1;
-        }
-        
-        .replay-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
     </style>
 </head>
 <body>
-    <!-- Intro Click Screen -->
-    <div class="intro-screen" id="introScreen" onclick="startDemo()">
-        <div class="click-start">
-            <span class="icon">▶</span>
-            <span class="text">Click to Start Demo</span>
+    <!-- Section 1: 4 Pillars Intro -->
+    <div class="section">
+        <div class="pillars-intro">
+            <div class="main-title">4 Pillars. 4 Problems. 4 Solutions.</div>
+            <div class="sub-title">TVK Digital Platform</div>
+            <div class="pillars-grid">
+                <div class="pillar-card field">
+                    <div class="pillar-icon">📊</div>
+                    <div class="pillar-name">Field Operations</div>
+                    <div class="pillar-problem">75,000+ booth workers need real-time coordination</div>
+                    <div class="pillar-app">Booth Connect</div>
+                </div>
+                <div class="pillar-card safety">
+                    <div class="pillar-icon">🛡️</div>
+                    <div class="pillar-name">Citizen Safety</div>
+                    <div class="pillar-problem">Crowd safety at rallies + Women's security</div>
+                    <div class="pillar-app">Kavalan</div>
+                </div>
+                <div class="pillar-card training">
+                    <div class="pillar-icon">📚</div>
+                    <div class="pillar-name">Cadre Development</div>
+                    <div class="pillar-problem">Consistent training at scale for all workers</div>
+                    <div class="pillar-app">Training Hub</div>
+                </div>
+                <div class="pillar-card voice">
+                    <div class="pillar-icon">📢</div>
+                    <div class="pillar-name">Citizen Voice</div>
+                    <div class="pillar-problem">Direct channel for grievances & feedback</div>
+                    <div class="pillar-app">Janakural</div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div class="demo-container">
-        <!-- Slide 1: 4 Pillars Intro -->
-        <div class="slide" id="slide1">
-            <div class="pillars-intro">
-                <div class="main-title">4 Pillars. 4 Problems. 4 Solutions.</div>
-                <div class="sub-title">TVK Digital Platform</div>
-                <div class="pillars-grid">
-                    <div class="pillar-card field" id="pillar1">
-                        <div class="pillar-icon">📊</div>
-                        <div class="pillar-name">Field Operations</div>
-                        <div class="pillar-problem">75,000+ booth workers need real-time coordination</div>
-                        <div class="pillar-app">Booth Connect</div>
+
+    <!-- Section 2: Booth Connect -->
+    <div class="section">
+        <div class="app-demo">
+            <div class="app-info">
+                <div class="app-badge field">Field Operations</div>
+                <div class="app-title">Booth Connect</div>
+                <div class="app-problem">Coordinate 75,000+ booth workers across 234 constituencies in real-time</div>
+                <ul class="app-features">
+                    <li>Live booth worker locations</li>
+                    <li>Real-time status updates</li>
+                    <li>Live election day turnout tracking</li>
+                    <li>Instant task assignment</li>
+                    <li>Constituency-wise analytics</li>
+                </ul>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div>
+                    <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
+                    <div class="phone-header field">
+                        <div class="logo">📊</div>
+                        <h2>Booth Connect</h2>
                     </div>
-                    <div class="pillar-card safety" id="pillar2">
-                        <div class="pillar-icon">🛡️</div>
-                        <div class="pillar-name">Citizen Safety</div>
-                        <div class="pillar-problem">Crowd safety at rallies + Women's security</div>
-                        <div class="pillar-app">Kavalan</div>
-                    </div>
-                    <div class="pillar-card training" id="pillar3">
-                        <div class="pillar-icon">📚</div>
-                        <div class="pillar-name">Cadre Development</div>
-                        <div class="pillar-problem">Consistent training at scale for all workers</div>
-                        <div class="pillar-app">Training Hub</div>
-                    </div>
-                    <div class="pillar-card voice" id="pillar4">
-                        <div class="pillar-icon">📢</div>
-                        <div class="pillar-name">Citizen Voice</div>
-                        <div class="pillar-problem">Direct channel for grievances & feedback</div>
-                        <div class="pillar-app">Janakural</div>
+                    <div class="phone-content">
+                        <div class="booth-map">
+                            <div class="booth-marker" style="top: 25px; left: 35px;"><span>📍</span></div>
+                            <div class="booth-marker" style="top: 50px; right: 45px;"><span>📍</span></div>
+                            <div class="booth-marker" style="bottom: 45px; left: 70px;"><span>📍</span></div>
+                            <div class="booth-marker" style="bottom: 35px; right: 25px;"><span>📍</span></div>
+                        </div>
+                        <div class="booth-stats">
+                            <div class="booth-stat"><div class="num">234</div><div class="label">Constituencies</div></div>
+                            <div class="booth-stat"><div class="num">75,432</div><div class="label">Workers</div></div>
+                            <div class="booth-stat"><div class="num">68,291</div><div class="label">Active</div></div>
+                        </div>
+                        <div class="booth-item">
+                            <div class="avatar">RK</div>
+                            <div class="info">
+                                <div class="name">Rajesh Kumar</div>
+                                <div class="loc">📍 Booth #1234, Chennai South</div>
+                            </div>
+                            <div class="status active">Active</div>
+                        </div>
+                        <div class="booth-item">
+                            <div class="avatar">PS</div>
+                            <div class="info">
+                                <div class="name">Priya Selvam</div>
+                                <div class="loc">📍 Booth #1235, Chennai South</div>
+                            </div>
+                            <div class="status active">Active</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Slide 2: Booth Connect -->
-        <div class="slide" id="slide2">
-            <div class="app-demo">
-                <div class="app-info">
-                    <div class="app-badge field">Field Operations</div>
-                    <div class="app-title">Booth Connect</div>
-                    <div class="app-problem">Coordinate 75,000+ booth workers across 234 constituencies in real-time</div>
-                    <ul class="app-features">
-                        <li id="bc-f1">Live booth worker locations</li>
-                        <li id="bc-f2">Real-time status updates</li>
-                        <li id="bc-f3">Live election day turnout tracking</li>
-                        <li id="bc-f4">Instant task assignment</li>
-                        <li id="bc-f5">Constituency-wise analytics</li>
-                    </ul>
-                </div>
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="phone-notch"></div>
-                        <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
-                        <div class="phone-header field">
-                            <div class="logo">📊</div>
-                            <h2>Booth Connect</h2>
+    </div>
+
+    <!-- Section 3: Kavalan -->
+    <div class="section">
+        <div class="app-demo">
+            <div class="app-info">
+                <div class="app-badge safety">Citizen Safety</div>
+                <div class="app-title">Kavalan</div>
+                <div class="app-problem">Real-time crowd monitoring and women's safety SOS at every TVK event</div>
+                <ul class="app-features">
+                    <li>Live crowd density mapping</li>
+                    <li>Instant volunteer dispatch</li>
+                    <li>Women's safety SOS button</li>
+                    <li>Emergency coordination</li>
+                </ul>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div>
+                    <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
+                    <div class="phone-header safety">
+                        <div class="logo">🛡️</div>
+                        <h2>Kavalan</h2>
+                    </div>
+                    <div class="phone-content">
+                        <div class="kavalan-map">
+                            <div class="crowd-zone danger" style="width: 55px; height: 55px; top: 35px; left: 25px;"></div>
+                            <div class="crowd-zone warning" style="width: 60px; height: 60px; top: 70px; right: 15px;"></div>
+                            <div class="crowd-zone safe" style="width: 45px; height: 45px; bottom: 25px; left: 55px;"></div>
+                            <div class="kavalan-alert">
+                                <div class="dot"></div>
+                                <span>⚠️ Gate 3 overcrowding - 92%</span>
+                            </div>
                         </div>
-                        <div class="phone-content">
-                            <div class="booth-map">
-                                <div class="booth-marker" id="bm1" style="top: 30px; left: 40px;"><span>📍</span></div>
-                                <div class="booth-marker" id="bm2" style="top: 60px; right: 50px;"><span>📍</span></div>
-                                <div class="booth-marker" id="bm3" style="bottom: 50px; left: 80px;"><span>📍</span></div>
-                                <div class="booth-marker" id="bm4" style="bottom: 40px; right: 30px;"><span>📍</span></div>
+                        <div class="kavalan-stats">
+                            <div class="kavalan-stat"><div class="num">12,847</div><div class="label">Crowd</div></div>
+                            <div class="kavalan-stat"><div class="num warning">78%</div><div class="label">Density</div></div>
+                            <div class="kavalan-stat"><div class="num">156</div><div class="label">Volunteers</div></div>
+                        </div>
+                        <div class="sos-btn">🚨 WOMEN SAFETY SOS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Training Hub -->
+    <div class="section">
+        <div class="app-demo">
+            <div class="app-info">
+                <div class="app-badge training">Cadre Development</div>
+                <div class="app-title">Training Hub</div>
+                <div class="app-problem">Standardized training for every booth worker, accessible anytime on mobile</div>
+                <ul class="app-features">
+                    <li>Video-based learning modules</li>
+                    <li>Quizzes & certifications</li>
+                    <li>Progress tracking</li>
+                    <li>Leaderboards & rewards</li>
+                </ul>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div>
+                    <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
+                    <div class="phone-header training">
+                        <div class="logo">📚</div>
+                        <h2>Training Hub</h2>
+                    </div>
+                    <div class="phone-content">
+                        <div class="training-progress">
+                            <h4>📈 Your Progress</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
                             </div>
-                            <div class="booth-stats">
-                                <div class="booth-stat"><div class="num">234</div><div class="label">Constituencies</div></div>
-                                <div class="booth-stat"><div class="num">75,432</div><div class="label">Workers</div></div>
-                                <div class="booth-stat"><div class="num">68,291</div><div class="label">Active</div></div>
+                            <div class="progress-text">
+                                <span>68% Complete</span>
+                                <span>Level 3 Cadre</span>
                             </div>
-                            <div class="booth-item" id="bi1">
-                                <div class="avatar">RK</div>
+                        </div>
+                        <div class="course-list">
+                            <div class="course-item">
+                                <div class="icon">🎯</div>
                                 <div class="info">
-                                    <div class="name">Rajesh Kumar</div>
-                                    <div class="loc">📍 Booth #1234, Chennai South</div>
+                                    <div class="title">Booth Management Basics</div>
+                                    <div class="meta">12 lessons • 45 mins</div>
                                 </div>
-                                <div class="status active">Active</div>
+                                <div class="badge complete">✓ Done</div>
                             </div>
-                            <div class="booth-item" id="bi2">
-                                <div class="avatar">PS</div>
+                            <div class="course-item">
+                                <div class="icon">📋</div>
                                 <div class="info">
-                                    <div class="name">Priya Selvam</div>
-                                    <div class="loc">📍 Booth #1235, Chennai South</div>
+                                    <div class="title">Voter Outreach Strategies</div>
+                                    <div class="meta">8 lessons • 30 mins</div>
                                 </div>
-                                <div class="status active">Active</div>
+                                <div class="badge progress">60%</div>
+                            </div>
+                            <div class="course-item">
+                                <div class="icon">🗳️</div>
+                                <div class="info">
+                                    <div class="title">Election Day Protocol</div>
+                                    <div class="meta">15 lessons • 1 hr</div>
+                                </div>
+                                <div class="badge new">New</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Slide 3: Kavalan -->
-        <div class="slide" id="slide3">
-            <div class="app-demo">
-                <div class="app-info">
-                    <div class="app-badge safety">Citizen Safety</div>
-                    <div class="app-title">Kavalan</div>
-                    <div class="app-problem">Real-time crowd monitoring and women's safety SOS at every TVK event</div>
-                    <ul class="app-features">
-                        <li id="kv-f1">Live crowd density mapping</li>
-                        <li id="kv-f2">Instant volunteer dispatch</li>
-                        <li id="kv-f3">Women's safety SOS button</li>
-                        <li id="kv-f4">Emergency coordination</li>
-                    </ul>
-                </div>
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="phone-notch"></div>
-                        <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
-                        <div class="phone-header safety">
-                            <div class="logo">🛡️</div>
-                            <h2>Kavalan</h2>
-                        </div>
-                        <div class="phone-content">
-                            <div class="kavalan-map">
-                                <div class="crowd-zone danger" style="width: 60px; height: 60px; top: 40px; left: 30px;"></div>
-                                <div class="crowd-zone warning" style="width: 70px; height: 70px; top: 80px; right: 20px;"></div>
-                                <div class="crowd-zone safe" style="width: 50px; height: 50px; bottom: 30px; left: 60px;"></div>
-                                <div class="kavalan-alert" id="kv-alert">
-                                    <div class="dot"></div>
-                                    <span>⚠️ Gate 3 overcrowding - 92%</span>
-                                </div>
-                            </div>
-                            <div class="kavalan-stats">
-                                <div class="kavalan-stat"><div class="num">12,847</div><div class="label">Crowd</div></div>
-                                <div class="kavalan-stat"><div class="num warning">78%</div><div class="label">Density</div></div>
-                                <div class="kavalan-stat"><div class="num">156</div><div class="label">Volunteers</div></div>
-                            </div>
-                            <div class="sos-btn" id="sos-btn">🚨 WOMEN SAFETY SOS</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Slide 4: Training Hub -->
-        <div class="slide" id="slide4">
-            <div class="app-demo">
-                <div class="app-info">
-                    <div class="app-badge training">Cadre Development</div>
-                    <div class="app-title">Training Hub</div>
-                    <div class="app-problem">Standardized training for every booth worker, accessible anytime on mobile</div>
-                    <ul class="app-features">
-                        <li id="th-f1">Video-based learning modules</li>
-                        <li id="th-f2">Quizzes & certifications</li>
-                        <li id="th-f3">Progress tracking</li>
-                        <li id="th-f4">Leaderboards & rewards</li>
-                    </ul>
-                </div>
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="phone-notch"></div>
-                        <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
-                        <div class="phone-header training">
-                            <div class="logo">📚</div>
-                            <h2>Training Hub</h2>
-                        </div>
-                        <div class="phone-content">
-                            <div class="training-progress">
-                                <h4>📈 Your Progress</h4>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="progress-fill"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span>68% Complete</span>
-                                    <span>Level 3 Cadre</span>
-                                </div>
-                            </div>
-                            <div class="course-list">
-                                <div class="course-item" id="ci1">
-                                    <div class="icon">🎯</div>
-                                    <div class="info">
-                                        <div class="title">Booth Management Basics</div>
-                                        <div class="meta">12 lessons • 45 mins</div>
-                                    </div>
-                                    <div class="badge complete">✓ Done</div>
-                                </div>
-                                <div class="course-item" id="ci2">
-                                    <div class="icon">📋</div>
-                                    <div class="info">
-                                        <div class="title">Voter Outreach Strategies</div>
-                                        <div class="meta">8 lessons • 30 mins</div>
-                                    </div>
-                                    <div class="badge progress">60%</div>
-                                </div>
-                                <div class="course-item" id="ci3">
-                                    <div class="icon">🗳️</div>
-                                    <div class="info">
-                                        <div class="title">Election Day Protocol</div>
-                                        <div class="meta">15 lessons • 1 hr</div>
-                                    </div>
-                                    <div class="badge new">New</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Slide 5: Janakural -->
-        <div class="slide" id="slide5">
-            <div class="app-demo">
-                <div class="app-info">
-                    <div class="app-badge voice">Citizen Voice</div>
-                    <div class="app-title">Janakural</div>
-                    <div class="app-problem">Direct channel for citizens to submit issues and track resolution</div>
-                    <ul class="app-features">
-                        <li id="jk-f1">Easy grievance submission</li>
-                        <li id="jk-f2">Real-time status tracking</li>
-                        <li id="jk-f3">Direct escalation path</li>
-                        <li id="jk-f4">Transparency dashboard</li>
-                    </ul>
-                </div>
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="phone-notch"></div>
-                        <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
-                        <div class="phone-header voice">
-                            <div class="logo">📢</div>
-                            <h2>Janakural</h2>
-                        </div>
-                        <div class="phone-content">
-                            <div class="grievance-form">
-                                <h4>📝 Submit New Issue</h4>
-                                <select class="form-select">
-                                    <option>Select Category...</option>
-                                    <option>Road & Infrastructure</option>
-                                    <option>Water Supply</option>
-                                    <option>Electricity</option>
-                                </select>
-                                <input class="form-input" placeholder="Describe your issue..." value="Street light not working near bus stop">
-                                <button class="submit-btn" id="submit-btn">📤 Submit Issue</button>
-                            </div>
-                            <div class="recent-issues">
-                                <h4>📋 Your Recent Issues</h4>
-                                <div class="issue-item" id="ii1">
-                                    <div class="status-dot resolved"></div>
-                                    <div class="info">
-                                        <div class="title">Pothole on Main Road</div>
-                                        <div class="meta">Resolved • 3 days ago</div>
-                                    </div>
-                                </div>
-                                <div class="issue-item" id="ii2">
-                                    <div class="status-dot progress"></div>
-                                    <div class="info">
-                                        <div class="title">Water supply timing</div>
-                                        <div class="meta">In Progress • 1 week ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Slide 6: Outro -->
-        <div class="slide" id="slide6">
-            <div class="outro">
-                <div class="outro-title">4 Pillars. 4 Apps. 1 Platform.</div>
-                <div class="outro-credit">Ready to deploy - <strong>Sharmila, Forward Alpha LLC</strong></div>
-                <div class="outro-tamil">வெற்றி நமக்கே! 🔴</div>
             </div>
         </div>
     </div>
-    
-    <!-- Progress Dots -->
-    <div class="demo-progress">
-        <div class="progress-dot" id="dot1"></div>
-        <div class="progress-dot" id="dot2"></div>
-        <div class="progress-dot" id="dot3"></div>
-        <div class="progress-dot" id="dot4"></div>
-        <div class="progress-dot" id="dot5"></div>
-        <div class="progress-dot" id="dot6"></div>
+
+    <!-- Section 5: Janakural -->
+    <div class="section">
+        <div class="app-demo">
+            <div class="app-info">
+                <div class="app-badge voice">Citizen Voice</div>
+                <div class="app-title">Janakural</div>
+                <div class="app-problem">Direct channel for citizens to submit issues and track resolution</div>
+                <ul class="app-features">
+                    <li>Easy grievance submission</li>
+                    <li>Real-time status tracking</li>
+                    <li>Direct escalation path</li>
+                    <li>Transparency dashboard</li>
+                </ul>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div>
+                    <div class="phone-status"><span>9:41</span><span>📶 100%</span></div>
+                    <div class="phone-header voice">
+                        <div class="logo">📢</div>
+                        <h2>Janakural</h2>
+                    </div>
+                    <div class="phone-content">
+                        <div class="grievance-form">
+                            <h4>📝 Submit New Issue</h4>
+                            <select class="form-select">
+                                <option>Select Category...</option>
+                                <option>Road & Infrastructure</option>
+                                <option>Water Supply</option>
+                                <option>Electricity</option>
+                            </select>
+                            <input class="form-input" placeholder="Describe your issue..." value="Street light not working near bus stop">
+                            <button class="submit-btn">📤 Submit Issue</button>
+                        </div>
+                        <div class="recent-issues">
+                            <h4>📋 Your Recent Issues</h4>
+                            <div class="issue-item">
+                                <div class="status-dot resolved"></div>
+                                <div class="info">
+                                    <div class="title">Pothole on Main Road</div>
+                                    <div class="meta">Resolved • 3 days ago</div>
+                                </div>
+                            </div>
+                            <div class="issue-item">
+                                <div class="status-dot progress"></div>
+                                <div class="info">
+                                    <div class="title">Water supply timing</div>
+                                    <div class="meta">In Progress • 1 week ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <!-- Replay Button -->
-    <button class="replay-btn" id="replayBtn" onclick="restartDemo()">↻ Replay</button>
-    
-    <script>
-        let currentSlide = 0;
-        let demoTimeout;
-        
-        function startDemo() {
-            document.getElementById('introScreen').classList.add('hidden');
-            setTimeout(() => {
-                showSlide(1);
-            }, 500);
-        }
-        
-        function showSlide(num) {
-            currentSlide = num;
-            
-            // Hide all slides
-            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-            
-            // Update progress dots
-            document.querySelectorAll('.progress-dot').forEach((d, i) => {
-                d.classList.toggle('active', i < num);
-            });
-            
-            // Show current slide
-            document.getElementById('slide' + num).classList.add('active');
-            
-            // Trigger animations for current slide
-            setTimeout(() => animateSlide(num), 300);
-            
-            // Auto-advance (except last slide)
-            if (num < 6) {
-                const duration = num === 1 ? 4000 : 5000;
-                demoTimeout = setTimeout(() => showSlide(num + 1), duration);
-            } else {
-                document.getElementById('replayBtn').classList.add('visible');
-            }
-        }
-        
-        function animateSlide(num) {
-            if (num === 1) {
-                // Pillars intro
-                ['pillar1', 'pillar2', 'pillar3', 'pillar4'].forEach((id, i) => {
-                    setTimeout(() => {
-                        document.getElementById(id).classList.add('visible');
-                    }, i * 200);
-                });
-            }
-            else if (num === 2) {
-                // Booth Connect
-                ['bm1', 'bm2', 'bm3', 'bm4'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), i * 200);
-                });
-                ['bc-f1', 'bc-f2', 'bc-f3', 'bc-f4', 'bc-f5'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), 800 + i * 250);
-                });
-                setTimeout(() => document.getElementById('bi1').classList.add('visible'), 1500);
-                setTimeout(() => document.getElementById('bi2').classList.add('visible'), 1800);
-            }
-            else if (num === 3) {
-                // Kavalan
-                setTimeout(() => document.getElementById('kv-alert').classList.add('visible'), 500);
-                ['kv-f1', 'kv-f2', 'kv-f3', 'kv-f4'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), 800 + i * 300);
-                });
-                setTimeout(() => document.getElementById('sos-btn').classList.add('visible'), 2000);
-            }
-            else if (num === 4) {
-                // Training Hub
-                setTimeout(() => document.getElementById('progress-fill').classList.add('animated'), 300);
-                ['th-f1', 'th-f2', 'th-f3', 'th-f4'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), 500 + i * 300);
-                });
-                ['ci1', 'ci2', 'ci3'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), 1200 + i * 300);
-                });
-            }
-            else if (num === 5) {
-                // Janakural
-                ['jk-f1', 'jk-f2', 'jk-f3', 'jk-f4'].forEach((id, i) => {
-                    setTimeout(() => document.getElementById(id).classList.add('visible'), 300 + i * 300);
-                });
-                setTimeout(() => document.getElementById('submit-btn').classList.add('visible'), 1200);
-                setTimeout(() => document.getElementById('ii1').classList.add('visible'), 1800);
-                setTimeout(() => document.getElementById('ii2').classList.add('visible'), 2100);
-            }
-        }
-        
-        function restartDemo() {
-            clearTimeout(demoTimeout);
-            document.getElementById('replayBtn').classList.remove('visible');
-            
-            // Reset all animations
-            document.querySelectorAll('.visible, .animated').forEach(el => {
-                el.classList.remove('visible', 'animated');
-            });
-            
-            showSlide(1);
-        }
-    </script>
+
+    <!-- Section 6: Outro -->
+    <div class="section">
+        <div class="outro">
+            <div class="outro-title">4 Pillars. 4 Apps. 1 Platform.</div>
+            <div class="outro-credit">Ready to deploy - <strong>Sharmila, Forward Alpha LLC</strong></div>
+            <div class="outro-tamil">வெற்றி நமக்கே! 🔴</div>
+        </div>
+    </div>
 </body>
 </html>
