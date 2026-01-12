@@ -101,8 +101,8 @@ export default function Home() {
                   </Link>
                   <a
                     href={app.demoUrl}
-                    target={app.demoUrl.startsWith("http") ? "_blank" : "_self"}
-                    rel={app.demoUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="bg-tvk-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
                   >
                     <span>View Demo</span>

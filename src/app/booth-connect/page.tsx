@@ -35,6 +35,8 @@ export default function BoothConnectDemo() {
             </Link>
             <a
               href="/demos/booth-connect.html"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors"
             >
               View Demo →

@@ -35,6 +35,8 @@ export default function KaavalanDemo() {
             </Link>
             <a
               href="/demos/kaavalan.html"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors"
             >
               View Demo →

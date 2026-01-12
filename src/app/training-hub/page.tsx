@@ -62,6 +62,8 @@ export default function TrainingHubDemo() {
             </Link>
             <a
               href="/demos/training-hub.html"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-orange-50 transition-colors"
             >
               View Demo →
