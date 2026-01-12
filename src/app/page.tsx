@@ -45,12 +45,13 @@ export default function Home() {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.15]"
         >
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0a0a0a]" />
+        {/* Dark overlay - strong to hide video content */}
+        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
         {/* Text content */}
         <div className="relative z-10 flex items-end min-h-[60vh] md:min-h-[70vh] p-6 md:p-12">
           <div className="container mx-auto max-w-5xl">
