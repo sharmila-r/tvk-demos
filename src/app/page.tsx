@@ -37,30 +37,27 @@ const apps = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-tvk-black isolate">
+    <main className="min-h-screen bg-[#0a0a0a]">
       {/* Video Hero Section */}
-      <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
-        {/* Solid background layer */}
-        <div className="absolute inset-0 bg-black" />
+      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] bg-[#0a0a0a] overflow-hidden">
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ backgroundColor: '#000' }}
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
         >
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#1a1a1a]" />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0a0a0a]" />
         {/* Text content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-          <div className="container mx-auto max-w-5xl relative">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="relative z-10 flex items-end min-h-[60vh] md:min-h-[70vh] p-6 md:p-12">
+          <div className="container mx-auto max-w-5xl">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
               TVK Digital Platform
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 max-w-2xl">
+            <p className="text-lg md:text-xl text-gray-100 max-w-2xl drop-shadow-md">
               Empowering communities through technology. Our suite of applications
               built on <span className="text-tvk-red font-semibold">20+ innovative ideas</span> designed
               to drive meaningful change.
