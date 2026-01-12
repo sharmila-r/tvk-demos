@@ -37,20 +37,20 @@ const apps = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-tvk-black">
+    <main className="min-h-screen bg-tvk-black isolate">
       {/* Video Hero Section */}
-      <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
+      <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden bg-black z-10">
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-tvk-black" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-tvk-black z-10" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 z-20">
           <div className="container mx-auto max-w-5xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               TVK Digital Platform
