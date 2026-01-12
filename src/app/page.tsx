@@ -41,20 +41,13 @@ export default function Home() {
       {/* Header */}
       <header className="bg-[#0a0a0a] text-white py-8 sticky top-0 z-50 border-b border-gray-800">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
-              <div className="bg-tvk-red px-4 py-2 rounded-lg">
-                <span className="font-semibold text-sm">TVK Apps</span>
-              </div>
-            </div>
-            <p className="text-gray-300 text-sm md:text-base max-w-2xl">
+          <div className="max-w-5xl mx-auto text-center">
+            <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
+            <p className="text-tvk-red font-semibold text-lg mt-1">TVK Apps</p>
+            <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-3">
               Empowering communities through technology. Our suite of applications
               built on <span className="text-tvk-red font-semibold">20+ innovative ideas</span> designed
               to drive meaningful change.
-            </p>
-            <p className="text-gray-500 text-xs mt-2">
-              Digital Solutions for Community Empowerment
             </p>
           </div>
         </div>
