@@ -834,8 +834,8 @@
             if (diff < -50) { prevSlide(); resetAutoScroll(); }
         });
 
-        // Auto-scroll every 3 seconds
-        let autoScrollInterval = setInterval(autoScroll, 3000);
+        // Auto-scroll every 5 seconds
+        let autoScrollInterval = setInterval(autoScroll, 5000);
 
         function autoScroll() {
             if (currentSlide < totalSlides - 1) {
@@ -848,7 +848,7 @@
 
         function resetAutoScroll() {
             clearInterval(autoScrollInterval);
-            autoScrollInterval = setInterval(autoScroll, 3000);
+            autoScrollInterval = setInterval(autoScroll, 5000);
         }
 
         // Reset auto-scroll on manual navigation

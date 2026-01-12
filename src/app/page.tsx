@@ -128,13 +128,13 @@ export default function Home() {
       </section>
 
       {/* Ideas Banner */}
-      <section className="bg-gradient-to-r from-tvk-red to-red-700 py-12">
+      <section className="bg-gradient-to-r from-yellow-400 to-yellow-500 py-12">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               20+ Innovative Ideas
             </h3>
-            <p className="text-red-100 text-lg">
+            <p className="text-gray-800 text-lg">
               From grassroots campaigning tools to community safety platforms,
               our ecosystem of solutions is designed to address real challenges
               and create lasting impact.

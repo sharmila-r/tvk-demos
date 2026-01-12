@@ -29,9 +29,17 @@ export default function BoothConnectDemo() {
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6 shadow-lg">
         <div className="container mx-auto px-4">
-          <Link href="/" className="text-blue-100 hover:text-white text-sm mb-2 inline-block">
-            ← Back to Home
-          </Link>
+          <div className="flex items-center justify-between mb-2">
+            <Link href="/" className="text-blue-100 hover:text-white text-sm">
+              ← Back to Home
+            </Link>
+            <a
+              href="/demos/booth-connect.html"
+              className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors"
+            >
+              View Demo →
+            </a>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-5xl">🗳️</span>
             <div>

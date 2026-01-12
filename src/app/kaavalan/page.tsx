@@ -29,9 +29,17 @@ export default function KaavalanDemo() {
       {/* Header */}
       <header className="bg-gradient-to-r from-purple-500 to-purple-700 text-white py-6 shadow-lg">
         <div className="container mx-auto px-4">
-          <Link href="/" className="text-purple-100 hover:text-white text-sm mb-2 inline-block">
-            ← Back to Home
-          </Link>
+          <div className="flex items-center justify-between mb-2">
+            <Link href="/" className="text-purple-100 hover:text-white text-sm">
+              ← Back to Home
+            </Link>
+            <a
+              href="/demos/kaavalan.html"
+              className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors"
+            >
+              View Demo →
+            </a>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-5xl">🛡️</span>
             <div>
