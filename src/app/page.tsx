@@ -38,46 +38,42 @@ const apps = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
-      {/* Video Hero Section */}
-      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] bg-[#0a0a0a] overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.15]"
-        >
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
-        {/* Dark overlay - strong to hide video content */}
-        <div className="absolute inset-0 bg-black/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
-        {/* Text content */}
-        <div className="relative z-10 flex items-end min-h-[60vh] md:min-h-[70vh] p-6 md:p-12">
-          <div className="container mx-auto max-w-5xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-              TVK Digital Platform
-            </h1>
-            <p className="text-lg md:text-xl text-gray-100 max-w-2xl drop-shadow-md">
+      {/* Header */}
+      <header className="bg-[#0a0a0a] text-white py-8 sticky top-0 z-50 border-b border-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
+              <div className="bg-tvk-red px-4 py-2 rounded-lg">
+                <span className="font-semibold text-sm">TVK Apps</span>
+              </div>
+            </div>
+            <p className="text-gray-300 text-sm md:text-base max-w-2xl">
               Empowering communities through technology. Our suite of applications
               built on <span className="text-tvk-red font-semibold">20+ innovative ideas</span> designed
               to drive meaningful change.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Header Bar */}
-      <header className="bg-tvk-red text-white py-4 sticky top-0 z-50 shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between max-w-5xl mx-auto">
-            <h2 className="text-xl font-bold">TVK Apps</h2>
-            <p className="text-red-100 text-sm hidden sm:block">
+            <p className="text-gray-500 text-xs mt-2">
               Digital Solutions for Community Empowerment
             </p>
           </div>
         </div>
       </header>
+
+      {/* Video Section */}
+      <section className="w-full bg-black">
+        <div className="max-w-5xl mx-auto">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-auto"
+          >
+            <source src="/video.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
 
       {/* Apps Section */}
       <section className="container mx-auto px-4 py-12">
