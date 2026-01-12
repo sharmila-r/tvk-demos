@@ -37,15 +37,15 @@ const apps = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a]">
+    <main className="min-h-screen bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
       {/* Header */}
-      <header className="bg-[#0a0a0a] text-white py-8 sticky top-0 z-50 border-b border-gray-800">
+      <header className="bg-gradient-to-r from-tvk-red to-red-800 text-white py-4 sticky top-0 z-50 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto text-center">
             <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
-            <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-3">
+            <p className="text-red-100 text-sm md:text-base max-w-2xl mx-auto mt-2">
               Empowering communities through technology. Our suite of applications
-              built on <span className="text-tvk-red font-semibold">20+ innovative ideas</span> designed
+              built on <span className="text-yellow-300 font-semibold">20+ innovative ideas</span> designed
               to drive meaningful change.
             </p>
           </div>
@@ -57,7 +57,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <iframe
             src="/demos/tvk_4pillars_demo.html"
-            className="w-full h-[600px] md:h-[700px] border-0"
+            className="w-full h-[500px] md:h-[600px] border-0"
             title="TVK 4 Pillars Demo"
           />
         </div>
@@ -144,9 +144,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-8">
+      <footer className="bg-gradient-to-r from-tvk-red to-red-800 text-white py-6">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-gray-500">
+          <p className="text-red-100">
             © {new Date().getFullYear()} Forward Alpha. All rights reserved.
           </p>
         </div>

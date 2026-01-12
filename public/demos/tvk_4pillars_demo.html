@@ -546,30 +546,30 @@
                     <div class="main-title">4 Pillars. 4 Problems. 4 Solutions.</div>
                     <div class="sub-title">TVK Digital Platform</div>
                     <div class="pillars-grid">
-                        <div class="pillar-card field">
+                        <a href="/booth-connect" target="_top" class="pillar-card field" style="text-decoration:none;">
                             <div class="pillar-icon">📊</div>
                             <div class="pillar-name">Field Operations</div>
                             <div class="pillar-problem">75,000+ booth workers need real-time coordination</div>
                             <div class="pillar-app">Booth Connect</div>
-                        </div>
-                        <div class="pillar-card safety">
+                        </a>
+                        <a href="/kaavalan" target="_top" class="pillar-card safety" style="text-decoration:none;">
                             <div class="pillar-icon">🛡️</div>
                             <div class="pillar-name">Citizen Safety</div>
                             <div class="pillar-problem">Crowd safety at rallies + Women's security</div>
                             <div class="pillar-app">Kavalan</div>
-                        </div>
-                        <div class="pillar-card training">
+                        </a>
+                        <a href="/training-hub" target="_top" class="pillar-card training" style="text-decoration:none;">
                             <div class="pillar-icon">📚</div>
                             <div class="pillar-name">Cadre Development</div>
                             <div class="pillar-problem">Consistent training at scale for all workers</div>
                             <div class="pillar-app">Training Hub</div>
-                        </div>
-                        <div class="pillar-card voice">
+                        </a>
+                        <a href="/janakural" target="_top" class="pillar-card voice" style="text-decoration:none;">
                             <div class="pillar-icon">📢</div>
                             <div class="pillar-name">Citizen Voice</div>
                             <div class="pillar-problem">Direct channel for grievances & feedback</div>
                             <div class="pillar-app">Janakural</div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -830,9 +830,31 @@
         track.addEventListener('touchstart', (e) => touchStartX = e.touches[0].clientX);
         track.addEventListener('touchend', (e) => {
             const diff = touchStartX - e.changedTouches[0].clientX;
-            if (diff > 50) nextSlide();
-            if (diff < -50) prevSlide();
+            if (diff > 50) { nextSlide(); resetAutoScroll(); }
+            if (diff < -50) { prevSlide(); resetAutoScroll(); }
         });
+
+        // Auto-scroll every 3 seconds
+        let autoScrollInterval = setInterval(autoScroll, 3000);
+
+        function autoScroll() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+            } else {
+                currentSlide = 0;
+            }
+            updateCarousel();
+        }
+
+        function resetAutoScroll() {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = setInterval(autoScroll, 3000);
+        }
+
+        // Reset auto-scroll on manual navigation
+        prevBtn.addEventListener('click', resetAutoScroll);
+        nextBtn.addEventListener('click', resetAutoScroll);
+        dots.forEach(dot => dot.addEventListener('click', resetAutoScroll));
     </script>
 </body>
 </html>
