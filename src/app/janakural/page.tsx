@@ -131,12 +131,9 @@ export default function JanakuralDemo() {
           {/* CTA */}
           <div className="bg-gradient-to-r from-green-500 to-green-700 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Make Your Voice Heard</h3>
-            <p className="text-green-100 mb-6">
+            <p className="text-green-100">
               Join thousands of citizens who are actively contributing to community improvement.
             </p>
-            <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors">
-              Download App
-            </button>
           </div>
         </div>
       </section>

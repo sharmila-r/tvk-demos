@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVK Kavalan - Crowd Safety App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 50px;
+            padding: 15px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5), inset 0 0 0 2px #333;
+            position: relative;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            border-radius: 38px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+        
+        .screen-content { height: 100%; display: none; }
+        .screen-content.active { display: block; }
+        
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 25px 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .app-header h1 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .app-header .logo {
+            width: 32px;
+            height: 32px;
+            background: #FFC000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        /* In-Phone Toast Overlay */
+        .phone-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border-radius: 38px;
+        }
+        
+        .phone-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .phone-toast {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 30px;
+            text-align: center;
+            width: 85%;
+            max-width: 300px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .phone-overlay.show .phone-toast {
+            transform: scale(1);
+        }
+        
+        .phone-toast .toast-icon {
+            font-size: 50px;
+            margin-bottom: 12px;
+        }
+        
+        .phone-toast h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #2e7d32;
+        }
+        
+        .phone-toast h3.sos {
+            color: #C41E3A;
+        }
+        
+        .phone-toast p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .phone-toast .toast-details {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            text-align: left;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .phone-toast .toast-btn {
+            margin-top: 15px;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 350px;
+            background: linear-gradient(180deg, #e8f4e8, #d4e8d4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        
+        .crowd-zone {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .crowd-zone.danger { background: radial-gradient(circle, rgba(255,0,0,0.6), rgba(255,0,0,0.1)); }
+        .crowd-zone.warning { background: radial-gradient(circle, rgba(255,165,0,0.5), rgba(255,165,0,0.1)); }
+        .crowd-zone.safe { background: radial-gradient(circle, rgba(0,255,0,0.4), rgba(0,255,0,0.1)); }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        
+        .stage-marker {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            background: #333;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .volunteer-marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #C41E3A;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .volunteer-marker:hover { transform: scale(1.2); }
+        
+        .alert-banner {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: slideDown 0.5s ease;
+            box-shadow: 0 4px 15px rgba(255,0,0,0.4);
+            cursor: pointer;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .alert-banner .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .map-legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .legend-item { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .legend-dot.danger { background: rgba(255,0,0,0.7); }
+        .legend-dot.warning { background: rgba(255,165,0,0.7); }
+        .legend-dot.safe { background: rgba(0,255,0,0.7); }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 20px; font-weight: 700; color: #333; }
+        .stat-value.warning { color: #ff9800; }
+        .stat-label { font-size: 11px; color: #666; margin-top: 2px; }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: white;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover { background: #eee; transform: scale(1.02); }
+        .action-btn .icon { font-size: 24px; margin-bottom: 4px; }
+        .action-btn .label { font-size: 10px; color: #333; text-align: center; }
+        
+        .action-btn.emergency {
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            grid-column: span 4;
+        }
+        .action-btn.emergency .icon { font-size: 28px; }
+        .action-btn.emergency .label { color: white; font-weight: 600; font-size: 12px; }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 25px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-item.active { opacity: 1; }
+        .nav-item .icon { font-size: 20px; }
+        .nav-item .label { font-size: 10px; margin-top: 2px; }
+        
+        .alert-detail {
+            padding: 15px;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+        
+        .alert-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #C41E3A;
+        }
+        
+        .alert-card h3 { font-size: 14px; color: #C41E3A; margin-bottom: 8px; }
+        .alert-card p { font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 10px; }
+        
+        .location {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        
+        .action-buttons { display: flex; gap: 10px; }
+        
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn.primary { background: linear-gradient(135deg, #C41E3A, #8B0000); color: white; }
+        .btn.secondary { background: #f0f0f0; color: #333; }
+        .btn:hover { transform: scale(1.02); }
+        
+        .volunteer-list { margin-top: 15px; }
+        .volunteer-list h4 { font-size: 13px; color: #333; margin-bottom: 10px; }
+        
+        .volunteer-card {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        }
+        
+        .volunteer-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+        
+        .volunteer-info { flex: 1; }
+        .volunteer-name { font-size: 13px; font-weight: 600; color: #333; }
+        .volunteer-distance { font-size: 11px; color: #666; margin-top: 2px; }
+        
+        .volunteer-status { padding: 4px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+        .volunteer-status.available { background: #e8f5e9; color: #2e7d32; }
+        .volunteer-status.busy { background: #fff3e0; color: #ef6c00; }
+        
+        .sos-screen {
+            height: 100%;
+            background: linear-gradient(180deg, #C41E3A, #8B0000);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff4444, #aa0000);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 -5px 20px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            margin: 20px 0;
+        }
+        
+        .sos-button:hover { transform: scale(1.05); }
+        .sos-button:active { transform: scale(0.95); }
+        .sos-button .icon { font-size: 60px; }
+        .sos-button .text { font-size: 36px; font-weight: 800; margin-top: 5px; }
+        
+        .sos-subtitle { opacity: 0.8; font-size: 12px; margin-top: 10px; }
+        
+        .sos-features { display: flex; justify-content: center; gap: 30px; margin-top: 30px; }
+        .sos-feature { text-align: center; }
+        .sos-feature .icon { font-size: 28px; margin-bottom: 5px; }
+        .sos-feature .label { font-size: 10px; opacity: 0.9; }
+        
+        .screen-tabs { display: flex; gap: 10px; margin-top: 20px; }
+        
+        .screen-tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .screen-tab:hover { background: rgba(255,255,255,0.2); }
+        .screen-tab.active { background: #C41E3A; border-color: #C41E3A; }
+        
+        .team-content {
+            padding: 15px;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+        
+        .team-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .team-stat { background: white; padding: 15px; border-radius: 12px; text-align: center; }
+        .team-stat .number { font-size: 24px; font-weight: 700; color: #C41E3A; }
+        .team-stat .label { font-size: 10px; color: #666; margin-top: 4px; }
+        
+        .team-section h4 { font-size: 12px; color: #333; margin: 15px 0 10px; }
+        
+        .volunteer-role { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 600; margin-left: 8px; }
+        .role-captain { background: #FFC000; color: #333; }
+        .role-medic { background: #4CAF50; color: white; }
+        .role-security { background: #2196F3; color: white; }
+        
+        .broadcast-content {
+            padding: 15px;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+        
+        .broadcast-type { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        
+        .broadcast-option {
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .broadcast-option:hover { border-color: #C41E3A; }
+        .broadcast-option.selected { border-color: #C41E3A; background: #fff5f5; }
+        .broadcast-option .icon { font-size: 28px; margin-bottom: 8px; }
+        .broadcast-option .label { font-size: 12px; font-weight: 600; color: #333; }
+        .broadcast-option .desc { font-size: 10px; color: #666; margin-top: 4px; }
+        
+        .broadcast-form { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; }
+        .broadcast-form label { display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 6px; }
+        
+        .broadcast-form textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            resize: none;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+        
+        .broadcast-form textarea:focus { outline: none; border-color: #C41E3A; }
+        
+        .broadcast-audience { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        
+        .audience-chip {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .audience-chip.selected { background: #C41E3A; color: white; }
+        
+        .broadcast-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .recent-broadcasts { margin-top: 15px; }
+        .recent-broadcasts h4 { font-size: 12px; color: #333; margin-bottom: 10px; }
+        
+        .broadcast-item { padding: 12px; background: white; border-radius: 10px; margin-bottom: 8px; }
+        .broadcast-item .time { font-size: 10px; color: #666; }
+        .broadcast-item .message { font-size: 12px; color: #333; margin-top: 4px; }
+        .broadcast-item .reach { font-size: 10px; color: #2e7d32; margin-top: 6px; }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <div class="notch"></div>
+            
+            <!-- In-Phone Toast Overlay -->
+            <div class="phone-overlay" id="phoneOverlay" onclick="hideToast()">
+                <div class="phone-toast" id="phoneToast" onclick="event.stopPropagation()">
+                    <div class="toast-icon">✅</div>
+                    <h3>Alert Sent!</h3>
+                    <p>Your alert has been broadcast.</p>
+                    <div class="toast-details">
+                        📢 5 volunteers notified<br>
+                        📍 Zone: Gate 3 East<br>
+                        ⏱️ Sent just now
+                    </div>
+                    <button class="toast-btn" onclick="hideToast()">OK</button>
+                </div>
+            </div>
+            
+            <!-- Screen 1: Home/Map -->
+            <div class="screen-content active" id="screen1">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>📶 100%</span>
+                </div>
+                
+                <div class="app-header">
+                    <h1>
+                        <div class="logo">🛡️</div>
+                        TVK Kavalan
+                    </h1>
+                    <span>🔔</span>
+                </div>
+                
+                <div class="map-container">
+                    <div class="map-grid"></div>
+                    <div class="crowd-zone danger" style="width: 100px; height: 100px; top: 80px; left: 50px;"></div>
+                    <div class="crowd-zone warning" style="width: 120px; height: 120px; top: 150px; right: 30px;"></div>
+                    <div class="crowd-zone safe" style="width: 80px; height: 80px; bottom: 80px; left: 100px;"></div>
+                    <div class="crowd-zone warning" style="width: 70px; height: 70px; top: 50px; right: 80px;"></div>
+                    <div class="stage-marker" style="top: 20px; left: 50%; transform: translateX(-50%);">🎤 STAGE</div>
+                    <div class="alert-banner" onclick="showScreen(2)">
+                        <div class="pulse-dot"></div>
+                        <span>⚠️ ALERT: Gate 3 overcrowding - 92%</span>
+                    </div>
+                    <div class="volunteer-marker" style="top: 120px; left: 80px;" onclick="showScreen(2)">👤</div>
+                    <div class="volunteer-marker" style="top: 180px; right: 60px;" onclick="showScreen(2)">👤</div>
+                    <div class="volunteer-marker" style="bottom: 100px; left: 160px;" onclick="showScreen(2)">👤</div>
+                    <div class="volunteer-marker" style="bottom: 120px; right: 40px;" onclick="showScreen(2)">👤</div>
+                    <div class="map-legend">
+                        <div class="legend-item"><div class="legend-dot danger"></div> Danger (>80%)</div>
+                        <div class="legend-item"><div class="legend-dot warning"></div> Warning (50-80%)</div>
+                        <div class="legend-item"><div class="legend-dot safe"></div> Safe (<50%)</div>
+                    </div>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-value">12,847</div>
+                        <div class="stat-label">Current Crowd</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value warning">78%</div>
+                        <div class="stat-label">Avg Density</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Volunteers</div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="action-btn" onclick="showScreen(2)">
+                        <div class="icon">⚠️</div>
+                        <div class="label">View Alerts</div>
+                    </div>
+                    <div class="action-btn" onclick="showScreen(5)">
+                        <div class="icon">📢</div>
+                        <div class="label">Broadcast</div>
+                    </div>
+                    <div class="action-btn" onclick="showScreen(4)">
+                        <div class="icon">👥</div>
+                        <div class="label">Volunteers</div>
+                    </div>
+                    <div class="action-btn emergency" onclick="showScreen(3)">
+                        <div class="icon">🚨</div>
+                        <div class="label">WOMEN SAFETY SOS</div>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active"><div class="icon">🗺️</div><div class="label">Map</div></div>
+                    <div class="nav-item" onclick="showScreen(2)"><div class="icon">⚠️</div><div class="label">Alerts</div></div>
+                    <div class="nav-item" onclick="showScreen(4)"><div class="icon">👥</div><div class="label">Team</div></div>
+                    <div class="nav-item" onclick="showScreen(5)"><div class="icon">📢</div><div class="label">Broadcast</div></div>
+                </div>
+            </div>
+            
+            <!-- Screen 2: Alert Detail -->
+            <div class="screen-content" id="screen2">
+                <div class="status-bar"><span>9:41</span><span>📶 100%</span></div>
+                <div class="app-header">
+                    <h1 onclick="showScreen(1)" style="cursor:pointer;">← Alerts</h1>
+                    <span>🔔</span>
+                </div>
+                <div class="alert-detail">
+                    <div class="alert-card">
+                        <h3>🚨 CRITICAL: Gate 3 Overcrowding</h3>
+                        <p>Crowd density has reached 92% at the eastern entrance. Immediate action required.</p>
+                        <div class="location">
+                            📍 Gate 3, Eastern Entrance<br>
+                            🕐 Detected 2 mins ago<br>
+                            👥 Estimated 3,200 people
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn primary" onclick="showAlertSuccess()">📢 Send Alert</button>
+                            <button class="btn secondary" onclick="showScreen(1)">🗺️ View Map</button>
+                        </div>
+                    </div>
+                    <div class="volunteer-list">
+                        <h4>👥 Nearest Volunteers (5)</h4>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar">RK</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Rajesh Kumar</div>
+                                <div class="volunteer-distance">📍 50m away • Zone Captain</div>
+                            </div>
+                            <span class="volunteer-status available">Available</span>
+                        </div>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar">PS</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Priya Selvam</div>
+                                <div class="volunteer-distance">📍 75m away • First Aid</div>
+                            </div>
+                            <span class="volunteer-status available">Available</span>
+                        </div>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar">MK</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Murugan K</div>
+                                <div class="volunteer-distance">📍 120m away</div>
+                            </div>
+                            <span class="volunteer-status busy">On Task</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="showScreen(1)"><div class="icon">🗺️</div><div class="label">Map</div></div>
+                    <div class="nav-item active"><div class="icon">⚠️</div><div class="label">Alerts</div></div>
+                    <div class="nav-item" onclick="showScreen(4)"><div class="icon">👥</div><div class="label">Team</div></div>
+                    <div class="nav-item" onclick="showScreen(5)"><div class="icon">📢</div><div class="label">Broadcast</div></div>
+                </div>
+            </div>
+            
+            <!-- Screen 3: Women Safety SOS -->
+            <div class="screen-content" id="screen3">
+                <div class="status-bar" style="color: white;"><span>9:41</span><span>📶 100%</span></div>
+                <div class="sos-screen">
+                    <h2 style="margin-bottom: 10px;">TVK பெண்கள் பாதுகாப்பு</h2>
+                    <p style="opacity: 0.8; font-size: 12px; margin-bottom: 30px;">Women Safety • SOS Alert System</p>
+                    <div class="sos-button" onclick="triggerSOS()">
+                        <span class="icon">🆘</span>
+                        <span class="text">SOS</span>
+                    </div>
+                    <p class="sos-subtitle">Press & hold for 3 seconds to send alert</p>
+                    <div class="sos-features">
+                        <div class="sos-feature"><div class="icon">📍</div><div class="label">GPS Location</div></div>
+                        <div class="sos-feature"><div class="icon">👥</div><div class="label">Alert Volunteers</div></div>
+                        <div class="sos-feature"><div class="icon">📞</div><div class="label">Emergency Call</div></div>
+                    </div>
+                    <button class="btn" style="margin-top: 30px; background: rgba(255,255,255,0.2); color: white; width: 100%;" onclick="showScreen(1)">← Back to Kavalan</button>
+                </div>
+            </div>
+            
+            <!-- Screen 4: Team -->
+            <div class="screen-content" id="screen4">
+                <div class="status-bar"><span>9:41</span><span>📶 100%</span></div>
+                <div class="app-header">
+                    <h1 onclick="showScreen(1)" style="cursor:pointer;">← Team</h1>
+                    <span>➕</span>
+                </div>
+                <div class="team-content">
+                    <div class="team-stats">
+                        <div class="team-stat"><div class="number">156</div><div class="label">Total</div></div>
+                        <div class="team-stat"><div class="number" style="color: #2e7d32;">142</div><div class="label">Active</div></div>
+                        <div class="team-stat"><div class="number" style="color: #ff9800;">14</div><div class="label">On Break</div></div>
+                    </div>
+                    <div class="team-section">
+                        <h4>🎖️ Zone Captains (8)</h4>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar" style="background: linear-gradient(135deg, #FFC000, #CC9900);">RK</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Rajesh Kumar <span class="volunteer-role role-captain">Captain</span></div>
+                                <div class="volunteer-distance">📍 Gate 3 East • 12 volunteers</div>
+                            </div>
+                            <span class="volunteer-status available">Active</span>
+                        </div>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar" style="background: linear-gradient(135deg, #FFC000, #CC9900);">SV</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Senthil V <span class="volunteer-role role-captain">Captain</span></div>
+                                <div class="volunteer-distance">📍 Main Stage • 18 volunteers</div>
+                            </div>
+                            <span class="volunteer-status available">Active</span>
+                        </div>
+                    </div>
+                    <div class="team-section">
+                        <h4>🏥 Medical Team (12)</h4>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar" style="background: linear-gradient(135deg, #4CAF50, #2e7d32);">PS</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Priya Selvam <span class="volunteer-role role-medic">Medic</span></div>
+                                <div class="volunteer-distance">📍 Medical Tent A • First Aid</div>
+                            </div>
+                            <span class="volunteer-status available">Available</span>
+                        </div>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar" style="background: linear-gradient(135deg, #4CAF50, #2e7d32);">DR</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Dr. Ramya <span class="volunteer-role role-medic">Doctor</span></div>
+                                <div class="volunteer-distance">📍 Medical Tent B • Emergency</div>
+                            </div>
+                            <span class="volunteer-status busy">With Patient</span>
+                        </div>
+                    </div>
+                    <div class="team-section">
+                        <h4>🛡️ Security Team (24)</h4>
+                        <div class="volunteer-card">
+                            <div class="volunteer-avatar" style="background: linear-gradient(135deg, #2196F3, #1565c0);">KA</div>
+                            <div class="volunteer-info">
+                                <div class="volunteer-name">Karthik A <span class="volunteer-role role-security">Security</span></div>
+                                <div class="volunteer-distance">📍 Entry Gate 1 • Checking</div>
+                            </div>
+                            <span class="volunteer-status available">Active</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="showScreen(1)"><div class="icon">🗺️</div><div class="label">Map</div></div>
+                    <div class="nav-item" onclick="showScreen(2)"><div class="icon">⚠️</div><div class="label">Alerts</div></div>
+                    <div class="nav-item active"><div class="icon">👥</div><div class="label">Team</div></div>
+                    <div class="nav-item" onclick="showScreen(5)"><div class="icon">📢</div><div class="label">Broadcast</div></div>
+                </div>
+            </div>
+            
+            <!-- Screen 5: Broadcast -->
+            <div class="screen-content" id="screen5">
+                <div class="status-bar"><span>9:41</span><span>📶 100%</span></div>
+                <div class="app-header">
+                    <h1 onclick="showScreen(1)" style="cursor:pointer;">← Broadcast</h1>
+                    <span>📢</span>
+                </div>
+                <div class="broadcast-content">
+                    <div class="broadcast-type">
+                        <div class="broadcast-option selected" onclick="selectBroadcastType(this)"><div class="icon">🚨</div><div class="label">Emergency</div><div class="desc">Critical alerts</div></div>
+                        <div class="broadcast-option" onclick="selectBroadcastType(this)"><div class="icon">📢</div><div class="label">Announcement</div><div class="desc">General info</div></div>
+                        <div class="broadcast-option" onclick="selectBroadcastType(this)"><div class="icon">🔄</div><div class="label">Reassign</div><div class="desc">Move teams</div></div>
+                        <div class="broadcast-option" onclick="selectBroadcastType(this)"><div class="icon">✅</div><div class="label">All Clear</div><div class="desc">Resolved</div></div>
+                    </div>
+                    <div class="broadcast-form">
+                        <label>Message</label>
+                        <textarea placeholder="Enter message...">Gate 3 overcrowding - redirect to Gate 5. Zone B assist immediately.</textarea>
+                        <label>Select Audience</label>
+                        <div class="broadcast-audience">
+                            <div class="audience-chip selected" onclick="toggleChip(this)">All Volunteers</div>
+                            <div class="audience-chip" onclick="toggleChip(this)">Zone Captains</div>
+                            <div class="audience-chip" onclick="toggleChip(this)">Medical</div>
+                            <div class="audience-chip selected" onclick="toggleChip(this)">Zone B</div>
+                            <div class="audience-chip" onclick="toggleChip(this)">Security</div>
+                        </div>
+                        <button class="broadcast-btn" onclick="sendBroadcast()">📢 Send Broadcast to 156 volunteers</button>
+                    </div>
+                    <div class="recent-broadcasts">
+                        <h4>📋 Recent Broadcasts</h4>
+                        <div class="broadcast-item">
+                            <div class="time">🕐 5 mins ago • Emergency</div>
+                            <div class="message">Gate 3 alert: Crowd building up.</div>
+                            <div class="reach">✓ Delivered to 156 volunteers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="showScreen(1)"><div class="icon">🗺️</div><div class="label">Map</div></div>
+                    <div class="nav-item" onclick="showScreen(2)"><div class="icon">⚠️</div><div class="label">Alerts</div></div>
+                    <div class="nav-item" onclick="showScreen(4)"><div class="icon">👥</div><div class="label">Team</div></div>
+                    <div class="nav-item active"><div class="icon">📢</div><div class="label">Broadcast</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="screen-tabs">
+        <button class="screen-tab active" onclick="showScreen(1)">🗺️ Map</button>
+        <button class="screen-tab" onclick="showScreen(2)">⚠️ Alerts</button>
+        <button class="screen-tab" onclick="showScreen(3)">🆘 SOS</button>
+        <button class="screen-tab" onclick="showScreen(4)">👥 Team</button>
+        <button class="screen-tab" onclick="showScreen(5)">📢 Broadcast</button>
+    </div>
+    
+    <script>
+        function showScreen(num) {
+            document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + num).classList.add('active');
+            document.querySelectorAll('.screen-tab').forEach((t, i) => {
+                t.classList.remove('active');
+                if (i === num - 1) t.classList.add('active');
+            });
+        }
+        
+        function showToast(icon, title, message, details, isSOS) {
+            const toast = document.getElementById('phoneToast');
+            toast.innerHTML = `
+                <div class="toast-icon">${icon}</div>
+                <h3 ${isSOS ? 'class="sos"' : ''}>${title}</h3>
+                <p>${message}</p>
+                <div class="toast-details">${details}</div>
+                <button class="toast-btn" onclick="hideToast()">OK</button>
+            `;
+            document.getElementById('phoneOverlay').classList.add('show');
+        }
+        
+        function hideToast() {
+            document.getElementById('phoneOverlay').classList.remove('show');
+        }
+        
+        function showAlertSuccess() {
+            showToast(
+                '✅',
+                'Alert Sent Successfully!',
+                'Nearby volunteers have been notified.',
+                '📢 5 volunteers notified<br>📍 Zone: Gate 3 East<br>⏱️ Sent just now<br>🔔 Push notifications delivered',
+                false
+            );
+        }
+        
+        function triggerSOS() {
+            showToast(
+                '🚨',
+                'SOS Alert Sent!',
+                'Help is on the way. Stay calm.',
+                '📍 Your location shared<br>👥 5 nearest volunteers alerted<br>📞 Emergency contact notified<br>⏱️ ETA: ~2 minutes',
+                true
+            );
+        }
+        
+        function sendBroadcast() {
+            showToast(
+                '✅',
+                'Broadcast Sent!',
+                'Your message has been delivered.',
+                '📢 156 volunteers notified<br>📱 Push notifications sent<br>⏱️ Sent just now<br>✓ 100% delivery rate',
+                false
+            );
+        }
+        
+        function selectBroadcastType(el) {
+            document.querySelectorAll('.broadcast-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        
+        function toggleChip(el) {
+            el.classList.toggle('selected');
+        }
+    </script>
+</body>
+</html>
