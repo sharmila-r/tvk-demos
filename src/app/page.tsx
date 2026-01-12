@@ -53,18 +53,14 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Video Section */}
+      {/* 4 Pillars Demo Section */}
       <section className="w-full bg-black">
         <div className="max-w-5xl mx-auto">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-auto"
-          >
-            <source src="/video.mp4" type="video/mp4" />
-          </video>
+          <iframe
+            src="/demos/tvk_4pillars_demo.html"
+            className="w-full h-[600px] md:h-[700px] border-0"
+            title="TVK 4 Pillars Demo"
+          />
         </div>
       </section>
 
