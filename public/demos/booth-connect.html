@@ -893,19 +893,19 @@
 
         <nav class="bottom-nav">
             <div class="nav-content">
-                <button class="nav-btn active">
+                <button class="nav-btn active" onclick="switchTab('stateView', 'Dashboard')">
                     <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span>Dashboard</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('stateView', 'Constituencies')">
                     <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                     <span>Constituencies</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('stateView', 'Agents')">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>Agents</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('stateView', 'Reports')">
                     <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
                     <span>Reports</span>
                 </button>
@@ -1054,19 +1054,19 @@
 
         <nav class="bottom-nav">
             <div class="nav-content">
-                <button class="nav-btn active">
+                <button class="nav-btn active" onclick="switchTab('boothView', 'Dashboard')">
                     <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span>Dashboard</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('boothView', 'Tasks')">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     <span>Tasks</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('boothView', 'Voters')">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>Voters</span>
                 </button>
-                <button class="nav-btn">
+                <button class="nav-btn" onclick="switchTab('boothView', 'Reports')">
                     <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
                     <span>Reports</span>
                 </button>
@@ -1087,10 +1087,68 @@
                 : 'TVK Booth Connect - Booth Agent View';
         }
 
-        function toggleLang() {
-            // Language toggle placeholder
-            alert('Language toggle - Tamil/English');
+        function switchTab(viewId, tabName) {
+            const view = document.getElementById(viewId);
+            if (!view) return;
+
+            // Update active state on nav buttons
+            view.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Show toast for demo
+            showToast(tabName + ' tab selected');
         }
+
+        function showToast(message) {
+            // Remove existing toast
+            const existing = document.querySelector('.demo-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'demo-toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255,255,255,0.95);
+                color: #1a1a1a;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: toastIn 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }
+
+        function toggleLang() {
+            showToast('Language: Tamil / English toggle');
+        }
+
+        // Add toast animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes toastIn {
+                from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+            @keyframes toastOut {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
