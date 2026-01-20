@@ -41,12 +41,12 @@ export default function JanakuralDemo() {
               ← Back to Home
             </Link>
             <a
-              href="https://janakural.vercel.app/home/"
+              href="https://janakural.com"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-green-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-green-50 transition-colors"
             >
-              View Demo →
+              Visit Site →
             </a>
           </div>
           <div className="flex items-center gap-4">
@@ -141,9 +141,17 @@ export default function JanakuralDemo() {
           {/* CTA */}
           <div className="bg-gradient-to-r from-green-500 to-green-700 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Make Your Voice Heard</h3>
-            <p className="text-green-100">
+            <p className="text-green-100 mb-6">
               Join thousands of citizens who are actively contributing to community improvement.
             </p>
+            <a
+              href="https://janakural.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors"
+            >
+              Report an Issue on Janakural.com
+            </a>
           </div>
         </div>
       </section>
