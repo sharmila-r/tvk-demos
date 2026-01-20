@@ -2,51 +2,51 @@ import Link from "next/link";
 
 const features = [
   {
-    title: "Real-time Tracking",
-    description: "Monitor field workers and volunteers with live location updates.",
-    icon: "📍",
+    title: "Zone Monitoring",
+    description: "Live map with crowd density overlays. Track zone capacity in real-time.",
+    icon: "🗺️",
   },
   {
-    title: "Emergency Alerts",
-    description: "Send and receive instant alerts during emergencies or urgent situations.",
+    title: "Alert Management",
+    description: "Instant alerts for overcrowding, medical emergencies, and security incidents.",
     icon: "🚨",
   },
   {
-    title: "Check-in System",
-    description: "Regular check-ins to ensure safety of all field personnel.",
-    icon: "✅",
+    title: "Team Coordination",
+    description: "Manage volunteers by role - coordinators, zone captains, medical, security teams.",
+    icon: "👥",
   },
   {
-    title: "Incident Reporting",
-    description: "Document and report incidents with photos, audio, and location data.",
-    icon: "📋",
+    title: "Broadcasts",
+    description: "Send announcements to all volunteers or specific teams instantly.",
+    icon: "📢",
   },
 ];
 
 export default function KaavalanDemo() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-white">
+    <main className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       {/* Header */}
-      <header className="bg-gradient-to-r from-purple-500 to-purple-700 text-white py-6 shadow-lg">
+      <header className="bg-gradient-to-r from-teal-600 to-teal-800 text-white py-6 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-2">
-            <Link href="/" className="text-purple-100 hover:text-white text-sm">
+            <Link href="/" className="text-teal-100 hover:text-white text-sm">
               ← Back to Home
             </Link>
             <a
-              href="/demos/kaavalan.html"
+              href="https://getkaavala.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors"
+              className="bg-white text-teal-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-teal-50 transition-colors"
             >
-              View Demo →
+              Download App →
             </a>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-5xl">🛡️</span>
             <div>
-              <h1 className="text-3xl font-bold">Kaavalan</h1>
-              <p className="text-purple-100">Guardian - Safety & Monitoring Platform</p>
+              <h1 className="text-3xl font-bold">TVK Kaavala</h1>
+              <p className="text-teal-100">Crowd Safety for Rallies & Events</p>
             </div>
           </div>
         </div>
@@ -56,23 +56,26 @@ export default function KaavalanDemo() {
       <section className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">About Kaavalan</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">About TVK Kaavala</h2>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Kaavalan (Guardian) is a comprehensive safety and monitoring platform designed to
-              protect field workers, volunteers, and community members. With real-time tracking,
-              emergency alerts, and incident reporting, ensure the safety of everyone on the ground.
+              TVK Kaavala is a crowd safety and volunteer coordination feature within the Kaavala app,
+              designed for TVK rallies, maanadu, and public gatherings. Real-time zone monitoring,
+              emergency alerts, and team coordination ensure the safety of all attendees and volunteers.
             </p>
             <div className="flex flex-wrap gap-4">
-              <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                24/7 Monitoring
+              <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">
+                Zone Density Tracking
               </span>
-              <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                SOS Button
+              <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">
+                Real-time Alerts
               </span>
-              <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                Geofencing
+              <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">
+                Team Broadcasts
               </span>
             </div>
+            <p className="text-sm text-gray-500 mt-4">
+              Part of the <a href="https://getkaavala.com" className="text-teal-600 hover:underline">Kaavala Women&apos;s Safety App</a>
+            </p>
           </div>
 
           {/* Features Grid */}
@@ -97,52 +100,52 @@ export default function KaavalanDemo() {
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-12">
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-green-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-bold text-green-600">156</div>
-                <div className="text-gray-500 text-sm">Active Users</div>
+                <div className="text-2xl font-bold text-green-600">12</div>
+                <div className="text-gray-500 text-sm">Active Zones</div>
+              </div>
+              <div className="bg-teal-50 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-teal-600">156</div>
+                <div className="text-gray-500 text-sm">Volunteers on Duty</div>
               </div>
               <div className="bg-yellow-50 rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-yellow-600">3</div>
-                <div className="text-gray-500 text-sm">Pending Check-ins</div>
-              </div>
-              <div className="bg-red-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-bold text-red-600">0</div>
                 <div className="text-gray-500 text-sm">Active Alerts</div>
               </div>
             </div>
             <div className="bg-gray-100 rounded-xl h-64 flex items-center justify-center">
-              <span className="text-gray-400">Live Map View Placeholder</span>
+              <span className="text-gray-400">Live Zone Map with Crowd Density Overlays</span>
             </div>
           </div>
 
-          {/* Emergency Section */}
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-8 mb-12">
+          {/* Alert Types Section */}
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-8 mb-12">
             <div className="flex items-start gap-4">
               <span className="text-4xl">🚨</span>
               <div>
-                <h3 className="text-xl font-bold text-red-800 mb-2">Emergency Response</h3>
-                <p className="text-red-700 mb-4">
-                  In case of emergency, users can trigger an SOS alert with a single tap.
-                  The system immediately notifies all designated contacts and shares the live location.
+                <h3 className="text-xl font-bold text-amber-800 mb-2">Alert Types</h3>
+                <p className="text-amber-700 mb-4">
+                  TVK Kaavala tracks and manages various types of incidents during events.
                 </p>
-                <ul className="text-red-600 text-sm space-y-1">
-                  <li>• Instant notification to emergency contacts</li>
-                  <li>• Live location sharing</li>
-                  <li>• Audio recording capability</li>
-                  <li>• Direct escalation to authorities</li>
+                <ul className="text-amber-600 text-sm space-y-1">
+                  <li>• <strong>Overcrowding</strong> - Zone capacity exceeded</li>
+                  <li>• <strong>Medical</strong> - Health emergencies requiring attention</li>
+                  <li>• <strong>Security</strong> - Safety or disturbance issues</li>
+                  <li>• <strong>Lost Person</strong> - Missing attendees or children</li>
+                  <li>• <strong>Women Safety</strong> - SOS alerts from Kaavala users at the event</li>
                 </ul>
               </div>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="bg-gradient-to-r from-purple-500 to-purple-700 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Protect Your Team</h3>
-            <p className="text-purple-100 mb-6">
-              Ensure the safety of your field workers and volunteers with Kaavalan.
+          <div className="bg-gradient-to-r from-teal-600 to-teal-800 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Available in Kaavala App</h3>
+            <p className="text-teal-100 mb-6">
+              TVK Kaavala is part of the Kaavala women&apos;s safety app. Download now and get access to both personal safety features and event crowd management.
             </p>
-            <button className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors">
-              Request Demo
-            </button>
+            <a href="https://getkaavala.com" className="inline-block bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors">
+              Download Kaavala
+            </a>
           </div>
         </div>
       </section>
@@ -151,7 +154,7 @@ export default function KaavalanDemo() {
       <footer className="bg-gray-900 text-white py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} TVK - Kaavalan
+            © {new Date().getFullYear()} TVK Kaavala
           </p>
         </div>
       </footer>
