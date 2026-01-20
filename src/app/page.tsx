@@ -64,24 +64,16 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
-      {/* Header with TVK flag colors */}
-      <header className="text-white py-4 sticky top-0 z-50 shadow-lg relative overflow-hidden">
-        {/* TVK Flag stripes background */}
-        <div className="absolute inset-0 flex flex-col">
-          <div className="flex-1 bg-black"></div>
-          <div className="flex-1 bg-[#E31E24]"></div>
-          <div className="flex-1 bg-[#FFD700]"></div>
-        </div>
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Header */}
+      <header className="bg-tvk-red text-white py-4 sticky top-0 z-50 shadow-lg">
+        <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-end mb-2">
               <LanguageToggle />
             </div>
             <div className="text-center">
-              <h1 className="text-2xl md:text-3xl font-bold drop-shadow-lg">{t("header.title")}</h1>
-              <p className="text-white/90 text-sm md:text-base max-w-2xl mx-auto mt-2 drop-shadow">
+              <h1 className="text-2xl md:text-3xl font-bold">{t("header.title")}</h1>
+              <p className="text-red-100 text-sm md:text-base max-w-2xl mx-auto mt-2">
                 {t("header.subtitle")}
                 <span className="text-yellow-300 font-semibold">{t("header.ideas")}</span>
                 {t("header.subtitle2")}
@@ -179,17 +171,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer with TVK flag colors */}
-      <footer className="text-white py-6 relative overflow-hidden">
-        {/* TVK Flag stripes background */}
-        <div className="absolute inset-0 flex flex-col">
-          <div className="flex-1 bg-black"></div>
-          <div className="flex-1 bg-[#E31E24]"></div>
-          <div className="flex-1 bg-[#FFD700]"></div>
-        </div>
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <p className="text-white/90 drop-shadow">
+      {/* Footer */}
+      <footer className="bg-tvk-red text-white py-6">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-red-100">
             {t("footer.copyright")}
           </p>
         </div>
