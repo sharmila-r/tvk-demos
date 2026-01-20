@@ -1,53 +1,84 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const apps = [
   {
-    name: "Booth Connect",
     slug: "booth-connect",
-    description: "Connect and manage election booth operations efficiently. Streamline volunteer coordination and voter outreach.",
     icon: "🗳️",
     color: "from-blue-500 to-blue-700",
     demoUrl: "/demos/booth-connect.html",
   },
   {
-    name: "Janakural",
     slug: "janakural",
-    description: "Voice of the people - A platform for citizens to report issues and track resolutions in their community.",
     icon: "📢",
     color: "from-green-500 to-green-700",
     demoUrl: "https://janakural.vercel.app/home/",
   },
   {
-    name: "Kaavalan",
     slug: "kaavalan",
-    description: "Guardian of the community - Monitor and ensure safety with real-time tracking and alerts.",
     icon: "🛡️",
     color: "from-purple-500 to-purple-700",
     demoUrl: "/demos/kaavalan.html",
   },
   {
-    name: "Training Hub",
     slug: "training-hub",
-    description: "Comprehensive training platform for volunteers and party workers with courses, assessments, and certifications.",
     icon: "🎓",
     color: "from-orange-500 to-orange-700",
     demoUrl: "/demos/training-hub.html",
   },
 ];
 
+function LanguageToggle() {
+  const { language, setLanguage } = useLanguage();
+
+  return (
+    <div className="flex items-center gap-2 bg-white/10 rounded-full p-1">
+      <button
+        onClick={() => setLanguage("ta")}
+        className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+          language === "ta"
+            ? "bg-white text-red-700"
+            : "text-white hover:bg-white/20"
+        }`}
+      >
+        தமிழ்
+      </button>
+      <button
+        onClick={() => setLanguage("en")}
+        className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+          language === "en"
+            ? "bg-white text-red-700"
+            : "text-white hover:bg-white/20"
+        }`}
+      >
+        English
+      </button>
+    </div>
+  );
+}
+
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
       {/* Header */}
       <header className="bg-gradient-to-r from-tvk-red to-red-800 text-white py-4 sticky top-0 z-50 shadow-lg">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center">
-            <h1 className="text-2xl md:text-3xl font-bold">TVK Digital Platform</h1>
-            <p className="text-red-100 text-sm md:text-base max-w-2xl mx-auto mt-2">
-              Empowering communities through technology. Our suite of applications
-              built on <span className="text-yellow-300 font-semibold">20+ innovative ideas</span> designed
-              to drive meaningful change.
-            </p>
+          <div className="max-w-5xl mx-auto">
+            <div className="flex justify-end mb-2">
+              <LanguageToggle />
+            </div>
+            <div className="text-center">
+              <h1 className="text-2xl md:text-3xl font-bold">{t("header.title")}</h1>
+              <p className="text-red-100 text-sm md:text-base max-w-2xl mx-auto mt-2">
+                {t("header.subtitle")}
+                <span className="text-yellow-300 font-semibold">{t("header.ideas")}</span>
+                {t("header.subtitle2")}
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -67,11 +98,10 @@ export default function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-12 max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Our Applications
+            {t("apps.title")}
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Explore our suite of applications designed to empower communities,
-            streamline operations, and drive positive change.
+            {t("apps.subtitle")}
           </p>
         </div>
 
@@ -85,19 +115,19 @@ export default function Home() {
               <Link href={`/${app.slug}`} className="block">
                 <div className={`bg-gradient-to-r ${app.color} p-6 text-white`}>
                   <span className="text-4xl">{app.icon}</span>
-                  <h3 className="text-2xl font-bold mt-3">{app.name}</h3>
+                  <h3 className="text-2xl font-bold mt-3">{t(`app.${app.slug}.name`)}</h3>
                 </div>
               </Link>
               <div className="p-6">
                 <p className="text-gray-400 leading-relaxed mb-4">
-                  {app.description}
+                  {t(`app.${app.slug}.description`)}
                 </p>
                 <div className="flex items-center gap-3">
                   <Link
                     href={`/${app.slug}`}
                     className="text-gray-300 hover:text-white font-medium text-sm transition-colors"
                   >
-                    Learn More →
+                    {t("action.learnMore")}
                   </Link>
                   <a
                     href={app.demoUrl}
@@ -105,7 +135,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="bg-tvk-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
                   >
-                    <span>View Demo</span>
+                    <span>{t("action.viewDemo")}</span>
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -132,12 +162,10 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              20+ Innovative Ideas
+              {t("ideas.title")}
             </h3>
             <p className="text-gray-800 text-lg">
-              From grassroots campaigning tools to community safety platforms,
-              our ecosystem of solutions is designed to address real challenges
-              and create lasting impact.
+              {t("ideas.description")}
             </p>
           </div>
         </div>
@@ -147,7 +175,7 @@ export default function Home() {
       <footer className="bg-gradient-to-r from-tvk-red to-red-800 text-white py-6">
         <div className="container mx-auto px-4 text-center">
           <p className="text-red-100">
-            © {new Date().getFullYear()} Forward Alpha. All rights reserved.
+            {t("footer.copyright")}
           </p>
         </div>
       </footer>

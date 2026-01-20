@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans_Tamil } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const notoSansTamil = Noto_Sans_Tamil({ subsets: ["tamil"], variable: "--font-tamil" });
 
 export const metadata: Metadata = {
-  title: "TVK Apps Demo",
+  title: "TVK Apps Demo | TVK செயலிகள் டெமோ",
   description: "Demo pages for TVK applications - Booth Connect, Janakural, Kaavalan, and Training Hub",
 };
 
@@ -15,8 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ta">
+      <body className={`${inter.variable} ${notoSansTamil.variable} font-sans`}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

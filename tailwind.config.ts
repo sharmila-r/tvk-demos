@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "var(--font-tamil)", "sans-serif"],
+      },
       colors: {
         tvk: {
           red: "#E31E24",
