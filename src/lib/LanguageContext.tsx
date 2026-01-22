@@ -13,10 +13,10 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   ta: {
     // Header
-    "header.title": "TVK டிஜிட்டல் தளம்",
-    "header.subtitle": "தொழில்நுட்பத்தின் மூலம் சமூகங்களை வலுப்படுத்துகிறோம். ",
-    "header.ideas": "20+ புதுமையான யோசனைகள்",
-    "header.subtitle2": " மூலம் உருவாக்கப்பட்ட எங்கள் செயலிகள் அர்த்தமுள்ள மாற்றத்தை ஏற்படுத்த வடிவமைக்கப்பட்டுள்ளன.",
+    "header.title": "தவெக டிஜிட்டல் தளம்",
+    "header.subtitle": "AI + தரவு பகுப்பாய்வு + தொழில்நுட்பத்தின் மூலம் ",
+    "header.ideas": "20+ புதுமையான யோசனைகளின்",
+    "header.subtitle2": " அடிப்படையில் உருவாக்கப்பட்ட எங்கள் செயலிகள், மக்களின் உண்மை தேவைகள் மற்றும் குரலைப் புரிந்து அர்த்தமுள்ள மாற்றத்தை உருவாக்க வடிவமைக்கப்பட்டுள்ளன.",
 
     // Apps Section
     "apps.title": "எங்கள் செயலிகள்",
@@ -49,9 +49,9 @@ const translations: Record<Language, Record<string, string>> = {
   en: {
     // Header
     "header.title": "TVK Digital Platform",
-    "header.subtitle": "Empowering communities through technology. Our suite of applications built on ",
+    "header.subtitle": "Empowering communities through AI, data analytics, and technology. Our suite of applications, built on ",
     "header.ideas": "20+ innovative ideas",
-    "header.subtitle2": " designed to drive meaningful change.",
+    "header.subtitle2": ", is designed to understand real needs and drive meaningful change.",
 
     // Apps Section
     "apps.title": "Our Applications",
