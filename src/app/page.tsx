@@ -32,7 +32,7 @@ const apps = [
     slug: "tvk-admin",
     icon: "⚙️",
     color: "from-gray-600 to-gray-800",
-    demoUrl: "https://tvk.theforwardalpha.com/",
+    demoUrl: "https://tvkadmin.theforwardalpha.com/",
   },
 ];
 

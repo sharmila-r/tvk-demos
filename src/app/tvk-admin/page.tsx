@@ -34,7 +34,7 @@ export default function TVKAdminDemo() {
               ← Back to Home
             </Link>
             <a
-              href="https://tvk.theforwardalpha.com/"
+              href="https://tvkadmin.theforwardalpha.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-gray-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors"
@@ -100,7 +100,7 @@ export default function TVKAdminDemo() {
               application settings.
             </p>
             <a
-              href="https://tvk.theforwardalpha.com/"
+              href="https://tvkadmin.theforwardalpha.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-white text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
