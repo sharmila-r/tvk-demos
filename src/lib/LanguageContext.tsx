@@ -35,6 +35,9 @@ const translations: Record<Language, Record<string, string>> = {
     "app.training-hub.name": "பயிற்சி மையம்",
     "app.training-hub.description": "தொண்டர்கள் மற்றும் கட்சி தொழிலாளர்களுக்கான விரிவான பயிற்சி தளம் - படிப்புகள், மதிப்பீடுகள் மற்றும் சான்றிதழ்கள்.",
 
+    "app.tvk-admin.name": "TVK நிர்வாக மையம்",
+    "app.tvk-admin.description": "TVK செயலிகளின் ஒருங்கிணைந்த நிர்வாக தளம் - பயனர் மேலாண்மை, பகுப்பாய்வு மற்றும் அமைப்புகள்.",
+
     // Actions
     "action.learnMore": "மேலும் அறிக →",
     "action.viewDemo": "டெமோ பார்க்க",
@@ -69,6 +72,9 @@ const translations: Record<Language, Record<string, string>> = {
 
     "app.training-hub.name": "Training Hub",
     "app.training-hub.description": "Comprehensive training platform for volunteers and party workers with courses, assessments, and certifications.",
+
+    "app.tvk-admin.name": "TVK Admin Portal",
+    "app.tvk-admin.description": "Unified admin portal for TVK applications - User management, analytics, and system settings.",
 
     // Actions
     "action.learnMore": "Learn More →",

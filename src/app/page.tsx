@@ -28,6 +28,12 @@ const apps = [
     color: "from-orange-500 to-orange-700",
     demoUrl: "/demos/training-hub.html",
   },
+  {
+    slug: "tvk-admin",
+    icon: "⚙️",
+    color: "from-gray-600 to-gray-800",
+    demoUrl: "https://tvk.theforwardalpha.com/",
+  },
 ];
 
 function LanguageToggle() {
